@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap 5 Starter Template</title>
+    <title>Bootstrap 5 Starter Template with QR Code Scanner</title>
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- QR Code Scanner CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.css">
+
 </head>
 <body>
 
@@ -55,6 +59,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- QR Code Scanner Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>QR Code Scanner</h3>
+                <div id="reader" style="width: 500px;"></div>
+                <div id="qr-reader-results"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -65,7 +78,27 @@
     </footer>
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" integrity="sha512-+o3MZyEmdCnG8cqQO36CuhRoKwB7c5u3HEwCkW8rNZcRxwRyCnC2qbcFhA1RxE2yM7kvWBcJ5bO90kUB+djh7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- QR Code Scanner JS -->
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            document.getElementById('qr-reader-results').innerText = `QR Code Result: ${decodedText}`;
+        }
+
+        function onScanError(errorMessage) {
+            // Handle scan error
+            console.error(errorMessage);
+        }
+
+        // Initialize the QR Code scanner
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: { width: 250, height: 250 } });
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+    </script>
 </body>
 </html>
-
